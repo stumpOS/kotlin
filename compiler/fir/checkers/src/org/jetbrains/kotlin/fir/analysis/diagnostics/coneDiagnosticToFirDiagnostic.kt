@@ -182,6 +182,7 @@ private fun ConeSimpleDiagnostic.getFactory(): FirDiagnosticFactory0<FirSourceEl
         DiagnosticKind.IntLiteralOutOfRange -> FirErrors.INT_LITERAL_OUT_OF_RANGE
         DiagnosticKind.FloatLiteralOutOfRange -> FirErrors.FLOAT_LITERAL_OUT_OF_RANGE
         DiagnosticKind.WrongLongSuffix -> FirErrors.WRONG_LONG_SUFFIX
+        DiagnosticKind.CannotInferParameterType -> FirErrors.CANNOT_INFER_PARAMETER_TYPE
         DiagnosticKind.Other -> FirErrors.OTHER_ERROR
         DiagnosticKind.IncorrectCharacterLiteral -> FirErrors.INCORRECT_CHARACTER_LITERAL
         DiagnosticKind.EmptyCharacterLiteral -> FirErrors.EMPTY_CHARACTER_LITERAL
