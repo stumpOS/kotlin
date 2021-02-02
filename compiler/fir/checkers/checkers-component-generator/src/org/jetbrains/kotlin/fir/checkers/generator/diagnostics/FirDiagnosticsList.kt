@@ -448,6 +448,7 @@ object DIAGNOSTICS_LIST : DiagnosticList() {
             parameter<ConeKotlinType>("varargParameterType")
         }
         val VALUE_PARAMETER_WITH_NO_TYPE_ANNOTATION by error<FirSourceElement, KtParameter>()
+        val CANNOT_INFER_PARAMETER_TYPE by error<FirSourceElement, KtParameter>()
     }
 
     val PROPERTIES_AND_ACCESSORS by object : DiagnosticGroup("Properties & accessors") {
