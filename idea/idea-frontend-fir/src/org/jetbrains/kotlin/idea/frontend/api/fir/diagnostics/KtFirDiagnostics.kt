@@ -889,6 +889,10 @@ sealed class KtFirDiagnostic<PSI: PsiElement> : KtDiagnosticWithPsi<PSI> {
         override val diagnosticClass get() = ValueParameterWithNoTypeAnnotation::class
     }
 
+    abstract class CannotInferParameterType : KtFirDiagnostic<KtParameter>() {
+        override val diagnosticClass get() = CannotInferParameterType::class
+    }
+
     abstract class AbstractPropertyInNonAbstractClass : KtFirDiagnostic<KtModifierListOwner>() {
         override val diagnosticClass get() = AbstractPropertyInNonAbstractClass::class
         abstract val property: KtSymbol
