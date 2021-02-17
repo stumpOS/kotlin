@@ -14830,6 +14830,12 @@ public class IrBlackBoxCodegenTestGenerated extends AbstractIrBlackBoxCodegenTes
             }
 
             @Test
+            @TestMetadata("inferGenericPropertyType.kt")
+            public void testInferGenericPropertyType() throws Exception {
+                runTest("compiler/testData/codegen/box/extensionFunctions/contextReceivers/inferGenericPropertyType.kt");
+            }
+
+            @Test
             @TestMetadata("plusMatrix.kt")
             public void testPlusMatrix() throws Exception {
                 runTest("compiler/testData/codegen/box/extensionFunctions/contextReceivers/plusMatrix.kt");
