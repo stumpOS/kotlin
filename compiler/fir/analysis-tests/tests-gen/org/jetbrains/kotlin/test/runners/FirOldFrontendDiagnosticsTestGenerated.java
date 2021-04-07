@@ -13407,6 +13407,12 @@ public class FirOldFrontendDiagnosticsTestGenerated extends AbstractFirDiagnosti
                 }
 
                 @Test
+                @TestMetadata("genericOverride.kt")
+                public void testGenericOverride() throws Exception {
+                    runTest("compiler/testData/diagnostics/tests/inference/nothingType/genericOverride.kt");
+                }
+
+                @Test
                 @TestMetadata("implicitInferenceTToFlexibleNothing.kt")
                 public void testImplicitInferenceTToFlexibleNothing() throws Exception {
                     runTest("compiler/testData/diagnostics/tests/inference/nothingType/implicitInferenceTToFlexibleNothing.kt");
