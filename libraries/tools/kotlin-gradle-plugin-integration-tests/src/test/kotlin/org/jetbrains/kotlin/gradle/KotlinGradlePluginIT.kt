@@ -25,6 +25,7 @@ import org.jetbrains.kotlin.gradle.scripting.internal.ScriptingGradleSubplugin
 import org.jetbrains.kotlin.gradle.tasks.USING_JVM_INCREMENTAL_COMPILATION_MESSAGE
 import org.jetbrains.kotlin.gradle.util.*
 import org.jetbrains.kotlin.test.util.KtTestUtil
+import org.junit.Ignore
 import org.junit.Test
 import java.io.File
 import java.nio.file.FileSystemException
@@ -1225,6 +1226,50 @@ class KotlinGradleIT : BaseGradleIT() {
             ) {
                 assertSuccessful()
             }
+        }
+    }
+
+    @Test
+    fun testEarlyConfigurationsResolutionKotlin() = testEarlyConfigurationsResolution("kotlinProject", kts = false)
+
+    @Test
+    fun testEarlyConfigurationsResolutionKotlinJs() = testEarlyConfigurationsResolution("kotlin-js-browser-project", kts = true)
+
+    @Ignore
+    @Test
+    fun testEarlyConfigurationsResolutionKotlinMpp() = testEarlyConfigurationsResolution("new-mpp-published", kts = true)
+
+    private fun testEarlyConfigurationsResolution(projectName: String, kts: Boolean) = with(Project(projectName = projectName)) {
+        setupWorkingDir()
+        gradleBuildScript().modify(::transformBuildScriptWithPluginsDsl)
+        gradleBuildScript().appendText(
+            """
+            // KT-45834 start
+            var ready = false
+            gradle.taskGraph.whenReady {
+                println("Task Graph Ready")
+                ready = true
+            }
+            
+            allprojects {
+                configurations.forEach { configuration ->
+                    configuration.incoming.beforeResolve {
+                        println("Resolving ${'$'}configuration")
+                        if (!ready) {
+                            throw ${if (kts) "" else "new"} GradleException("${'$'}configuration is being resolved at configuration time")
+                        }
+                    }
+                }
+            }
+            // KT-45834 end
+            """.trimIndent()
+        )
+
+        build(
+            "assemble",
+            options = defaultBuildOptions().copy(dryRun = true, debug = true)
+        ) {
+            assertSuccessful()
         }
     }
 }
