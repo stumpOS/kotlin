@@ -14,6 +14,7 @@ import org.jetbrains.kotlin.diagnostics.DiagnosticFactory1
 import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.descriptors.toIrBasedDescriptor
 import org.jetbrains.kotlin.ir.util.isFakeOverride
+import org.jetbrains.kotlin.ir.util.render
 import org.jetbrains.kotlin.resolve.jvm.diagnostics.*
 import org.jetbrains.kotlin.utils.SmartSet
 import org.jetbrains.org.objectweb.asm.Type
@@ -119,6 +120,14 @@ class JvmSignatureClashDetector(
                     }
             }
         }
+    }
+
+    private fun dumpOverrideTree(irFun: IrSimpleFunction, indent: Int = 0) {
+        repeat(indent) { print(' ') }
+        println(irFun.render())
+        repeat(indent) { print(' ') }
+        println(">> Parent: ${irFun.parent.render()}")
+        irFun.overriddenSymbols.forEach { dumpOverrideTree(it.owner, indent + 2) }
     }
 
     private fun reportPredefinedMethodSignatureConflicts(classOrigin: JvmDeclarationOrigin) {
