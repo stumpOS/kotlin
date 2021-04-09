@@ -298,7 +298,7 @@ class K2NativeCompilerArguments : CommonCompilerArguments() {
     var destroyRuntimeMode: String? = "on-shutdown"
 
     @Argument(value="-Xgc", valueDescription = "<gc>", description = "GC to use, 'noop' and 'stms' are currently supported. Works only with -memory-model experimental")
-    var gc: String? = "stms"
+    var gc: String? = null
 
     override fun configureAnalysisFlags(collector: MessageCollector): MutableMap<AnalysisFlag<*>, Any> =
             super.configureAnalysisFlags(collector).also {

@@ -197,7 +197,7 @@ class K2Native : CLICompiler<K2NativeCompilerArguments>() {
 
                 put(ENABLE_ASSERTIONS, arguments.enableAssertions)
 
-                put(MEMORY_MODEL, when (arguments.memoryModel) {
+                val memoryModel = when (arguments.memoryModel) {
                     "relaxed" -> {
                         configuration.report(STRONG_WARNING, "Relaxed memory model is not yet fully functional")
                         MemoryModel.RELAXED
@@ -208,7 +208,9 @@ class K2Native : CLICompiler<K2NativeCompilerArguments>() {
                         configuration.report(ERROR, "Unsupported memory model ${arguments.memoryModel}")
                         MemoryModel.STRICT
                     }
-                })
+                }
+
+                put(MEMORY_MODEL, memoryModel)
 
                 when {
                     arguments.generateWorkerTestRunner -> put(GENERATE_TEST_RUNNER, TestRunnerKind.WORKER)
@@ -262,9 +264,21 @@ class K2Native : CLICompiler<K2NativeCompilerArguments>() {
                         DestroyRuntimeMode.ON_SHUTDOWN
                     }
                 })
+                val assertGcSupported = {
+                    if (memoryModel != MemoryModel.EXPERIMENTAL) {
+                        configuration.report(ERROR, "-Xgc is only supported for -memory-model experimental")
+                    }
+                }
                 put(GARBAGE_COLLECTOR, when (arguments.gc) {
-                    "noop" -> GC.NOOP
-                    "stms" -> GC.SINGLE_THREAD_MARK_SWEEP
+                    null -> GC.SINGLE_THREAD_MARK_SWEEP
+                    "noop" -> {
+                        assertGcSupported()
+                        GC.NOOP
+                    }
+                    "stms" -> {
+                        assertGcSupported()
+                        GC.SINGLE_THREAD_MARK_SWEEP
+                    }
                     else -> {
                         configuration.report(ERROR, "Unsupported GC ${arguments.gc}")
                         GC.SINGLE_THREAD_MARK_SWEEP
