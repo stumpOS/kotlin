@@ -11,6 +11,7 @@ import org.jetbrains.kotlin.descriptors.SimpleFunctionDescriptor
 import org.jetbrains.kotlin.descriptors.ValueParameterDescriptor
 import org.jetbrains.kotlin.resolve.sam.getAbstractMembers
 import org.jetbrains.kotlin.types.*
+import org.jetbrains.kotlin.types.typeUtil.builtIns
 import org.jetbrains.kotlin.types.typeUtil.replaceArgumentsWithNothing
 
 class SamType constructor(val type: KotlinType) {
@@ -80,7 +81,12 @@ open class SamTypeFactory {
     }
 
     private fun KotlinType.removeExternalProjections(): KotlinType {
-        val newArguments = arguments.map { TypeProjectionImpl(Variance.INVARIANT, it.type) }
+        val newArguments = arguments.map {
+            TypeProjectionImpl(
+                Variance.INVARIANT,
+                if (it.type.constructor is IntersectionTypeConstructor) builtIns.anyType else it.type
+            )
+        }
         return replace(newArguments)
     }
 
