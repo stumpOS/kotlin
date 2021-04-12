@@ -717,6 +717,10 @@ sealed class KtFirDiagnostic<PSI: PsiElement> : KtDiagnosticWithPsi<PSI> {
         override val diagnosticClass get() = TypeParameterOfPropertyNotUsedInReceiver::class
     }
 
+    abstract class CyclicGenericUpperBound : KtFirDiagnostic<KtTypeParameter>() {
+        override val diagnosticClass get() = CyclicGenericUpperBound::class
+    }
+
     abstract class ExtensionInClassReferenceNotAllowed : KtFirDiagnostic<KtExpression>() {
         override val diagnosticClass get() = ExtensionInClassReferenceNotAllowed::class
         abstract val referencedDeclaration: KtCallableSymbol
