@@ -1162,7 +1162,14 @@ internal class TypeParameterOfPropertyNotUsedInReceiverImpl(
 internal class CyclicGenericUpperBoundImpl(
     firDiagnostic: FirPsiDiagnostic<*>,
     override val token: ValidityToken,
-) : KtFirDiagnostic.CyclicGenericUpperBound(), KtAbstractFirDiagnostic<KtTypeParameter> {
+) : KtFirDiagnostic.CyclicGenericUpperBound(), KtAbstractFirDiagnostic<PsiElement> {
+    override val firDiagnostic: FirPsiDiagnostic<*> by weakRef(firDiagnostic)
+}
+
+internal class DeprecatedTypeParameterSyntaxImpl(
+    firDiagnostic: FirPsiDiagnostic<*>,
+    override val token: ValidityToken,
+) : KtFirDiagnostic.DeprecatedTypeParameterSyntax(), KtAbstractFirDiagnostic<KtTypeParameterList> {
     override val firDiagnostic: FirPsiDiagnostic<*> by weakRef(firDiagnostic)
 }
 

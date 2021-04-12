@@ -327,6 +327,8 @@ object DIAGNOSTICS_LIST : DiagnosticList() {
         val TYPE_PARAMETER_OF_PROPERTY_NOT_USED_IN_RECEIVER by error<FirSourceElement, KtTypeParameter>()
 
         val CYCLIC_GENERIC_UPPER_BOUND by error<FirSourceElement, PsiElement>()
+
+        val DEPRECATED_TYPE_PARAMETER_SYNTAX by error<FirSourceElement, KtTypeParameterList>()
     }
 
     val REFLECTION by object : DiagnosticGroup("Reflection") {
