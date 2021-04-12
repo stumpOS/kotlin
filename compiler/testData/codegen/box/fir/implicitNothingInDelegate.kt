@@ -1,5 +1,8 @@
 // TARGET_BACKEND: JVM_IR
+// IGNORE_BACKEND: JVM_IR
 // WITH_RUNTIME
+
+// Note: this test passes in FIR but fails in FE 1.0 + IR
 fun box(): String {
     val m1: Map<String, Any> = mapOf("foo" to "O")
     val m2: Map<String, *> = mapOf("baz" to "K")
