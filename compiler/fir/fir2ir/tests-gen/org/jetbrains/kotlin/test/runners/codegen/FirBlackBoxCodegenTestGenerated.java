@@ -41,12 +41,6 @@ public class FirBlackBoxCodegenTestGenerated extends AbstractFirBlackBoxCodegenT
         }
 
         @Test
-        @TestMetadata("annotatedEnumEntry.kt")
-        public void testAnnotatedEnumEntry() throws Exception {
-            runTest("compiler/testData/codegen/box/annotations/annotatedEnumEntry.kt");
-        }
-
-        @Test
         @TestMetadata("annotatedObjectLiteral.kt")
         public void testAnnotatedObjectLiteral() throws Exception {
             runTest("compiler/testData/codegen/box/annotations/annotatedObjectLiteral.kt");
