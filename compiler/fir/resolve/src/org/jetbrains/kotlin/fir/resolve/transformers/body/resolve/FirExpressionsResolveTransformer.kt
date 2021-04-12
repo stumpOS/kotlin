@@ -782,14 +782,15 @@ open class FirExpressionsResolveTransformer(transformer: FirBodyResolveTransform
         annotationCall: FirAnnotationCall,
         status: FirAnnotationResolveStatus
     ): CompositeTransformResult<FirAnnotationCall> {
-        dataFlowAnalyzer.enterAnnotationCall(annotationCall)
         return withFirArrayOfCallTransformer {
             annotationCall.transformAnnotationTypeRef(transformer, ResolutionMode.ContextIndependent)
             if (status == FirAnnotationResolveStatus.PartiallyResolved) return annotationCall.compose()
-            val result = callResolver.resolveAnnotationCall(annotationCall) ?: return annotationCall.compose()
+            dataFlowAnalyzer.enterAnnotationCall(annotationCall)
+            val result = callResolver.resolveAnnotationCall(annotationCall)
+            dataFlowAnalyzer.exitAnnotationCall(result ?: annotationCall)
+            if (result == null) return annotationCall.compose()
             callCompleter.completeCall(result, noExpectedType)
             result.replaceResolveStatus(status)
-            dataFlowAnalyzer.exitAnnotationCall(result)
             annotationCall.compose()
         }
     }

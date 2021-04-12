@@ -2,7 +2,7 @@
 
 private object TopLevelTypeVariable {
     @Suppress("INVISIBLE_MEMBER", "INVISIBLE_REFERENCE")
-    fun <T> foo(): @kotlin.internal.NoInfer T = TODO()
+    fun <T> foo(): <!HIDDEN, HIDDEN!>@kotlin.internal.NoInfer<!> T = TODO()
 
     fun <K> bar(k: K) {}
 
