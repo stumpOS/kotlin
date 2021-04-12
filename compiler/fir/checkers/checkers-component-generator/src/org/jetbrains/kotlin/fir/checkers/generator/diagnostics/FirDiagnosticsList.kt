@@ -321,6 +321,8 @@ object DIAGNOSTICS_LIST : DiagnosticList() {
         val BOUND_ON_TYPE_ALIAS_PARAMETER_NOT_ALLOWED by error<FirSourceElement, KtTypeReference>()
 
         val REIFIED_TYPE_PARAMETER_NO_INLINE by error<FirSourceElement, PsiElement>()
+
+        val TYPE_PARAMETERS_NOT_ALLOWED by error<FirSourceElement, KtDeclaration>()
     }
 
     val REFLECTION by object : DiagnosticGroup("Reflection") {

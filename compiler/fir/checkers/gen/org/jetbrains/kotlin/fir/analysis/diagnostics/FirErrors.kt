@@ -237,6 +237,7 @@ object FirErrors {
     val NAME_IN_CONSTRAINT_IS_NOT_A_TYPE_PARAMETER by error2<FirSourceElement, KtSimpleNameExpression, Name, FirDeclaration>()
     val BOUND_ON_TYPE_ALIAS_PARAMETER_NOT_ALLOWED by error0<FirSourceElement, KtTypeReference>()
     val REIFIED_TYPE_PARAMETER_NO_INLINE by error0<FirSourceElement, PsiElement>()
+    val TYPE_PARAMETERS_NOT_ALLOWED by error0<FirSourceElement, KtDeclaration>()
 
     // Reflection
     val EXTENSION_IN_CLASS_REFERENCE_NOT_ALLOWED by error1<FirSourceElement, KtExpression, FirCallableDeclaration<*>>(SourceElementPositioningStrategies.REFERENCE_BY_QUALIFIED)
