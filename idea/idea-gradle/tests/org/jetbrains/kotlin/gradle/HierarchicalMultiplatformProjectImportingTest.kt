@@ -578,7 +578,7 @@ class HierarchicalMultiplatformProjectImportingTest : MultiplePluginVersionGradl
     }
 
     @Test
-    @PluginTargetVersions(gradleVersionForLatestPlugin = mppImportTestMinVersionForMaster)
+    @PluginTargetVersions()
     fun testCommonMainIsSingleBackend() {
         configureByFiles()
         importProject()

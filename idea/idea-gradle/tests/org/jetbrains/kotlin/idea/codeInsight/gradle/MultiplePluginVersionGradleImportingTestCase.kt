@@ -133,7 +133,7 @@ abstract class MultiplePluginVersionGradleImportingTestCase : ExternalSystemImpo
             "-Xmx256m -XX:MaxPermSize=64m"
         else ->
             // 128M should be enough for gradle 5.0+ (leak is fixed), and <4.0 (amount of tests is less)
-            "-Xms128M -Xmx192m -XX:MaxPermSize=64m"
+            "-Xms128M -Xmx256m -XX:MaxPermSize=64m"
     }
 
     override fun setUp() {
@@ -450,16 +450,12 @@ abstract class MultiplePluginVersionGradleImportingTestCase : ExternalSystemImpo
     }
 
     private fun repositories(useKts: Boolean): String {
-        val customRepositories = arrayOf(
-            "https://dl.bintray.com/kotlin/kotlin-dev",
-        )
-        val customMavenRepositories = customRepositories.joinToString("\n") { if (useKts) "maven(\"$it\")" else "maven { url '$it' } " }
         return """
-            mavenCentral()
             mavenLocal()
+            mavenCentral()
+            gradlePluginPortal()
             google()
             jcenter()
-            $customMavenRepositories
         """.trimIndent()
     }
 
@@ -475,7 +471,8 @@ abstract class MultiplePluginVersionGradleImportingTestCase : ExternalSystemImpo
         protected val SUFFIX = ".after"
 
         const val RELEASED_A_YEAR_AGO_GRADLE_PLUGIN_VERSION = "1.3.72"
-        const val LATEST_STABLE_RELEASE_GRADLE_PLUGIN_VERSION = "1.4.30"
+        const val LATEST_STABLE_RELEASE_GRADLE_PLUGIN_VERSION = "1.4.32"
+
         val MASTER_VERSION_OF_PLUGIN
             get() = File("libraries/tools/kotlin-gradle-plugin/build/libs").listFiles()?.map { it.name }
                 ?.firstOrNull { it.contains("-original.jar") }?.replace(
@@ -483,9 +480,9 @@ abstract class MultiplePluginVersionGradleImportingTestCase : ExternalSystemImpo
                     ""
                 )?.replace("-original.jar", "") ?: "1.5.255-SNAPSHOT"
 
-        const val LATEST_SUPPORTED_GRADLE_VERSION = "6.5.1"
+        const val LATEST_SUPPORTED_GRADLE_VERSION = "6.8.3"
 
-        val SUPPORTED_GRADLE_VERSIONS = arrayOf("4.9", "5.6.4", LATEST_SUPPORTED_GRADLE_VERSION)
+        val SUPPORTED_GRADLE_VERSIONS = arrayOf("4.9", "5.6.4", "6.1.1", LATEST_SUPPORTED_GRADLE_VERSION)
 
         private val LOCAL_RUN_PARAMS: Array<Any> =
             System.getenv("IMPORTING_TESTS_LOCAL_RUN_PARAMS") // You can specify versions for local run. For example: "6.7.1:1.4.30"
