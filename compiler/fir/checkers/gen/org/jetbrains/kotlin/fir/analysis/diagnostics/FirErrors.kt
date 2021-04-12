@@ -238,6 +238,7 @@ object FirErrors {
     val BOUND_ON_TYPE_ALIAS_PARAMETER_NOT_ALLOWED by error0<FirSourceElement, KtTypeReference>()
     val REIFIED_TYPE_PARAMETER_NO_INLINE by error0<FirSourceElement, PsiElement>()
     val TYPE_PARAMETERS_NOT_ALLOWED by error0<FirSourceElement, KtDeclaration>()
+    val TYPE_PARAMETER_OF_PROPERTY_NOT_USED_IN_RECEIVER by error0<FirSourceElement, KtTypeParameter>()
 
     // Reflection
     val EXTENSION_IN_CLASS_REFERENCE_NOT_ALLOWED by error1<FirSourceElement, KtExpression, FirCallableDeclaration<*>>(SourceElementPositioningStrategies.REFERENCE_BY_QUALIFIED)

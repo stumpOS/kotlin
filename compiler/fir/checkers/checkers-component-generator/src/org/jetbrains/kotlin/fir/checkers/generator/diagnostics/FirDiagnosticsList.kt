@@ -323,6 +323,8 @@ object DIAGNOSTICS_LIST : DiagnosticList() {
         val REIFIED_TYPE_PARAMETER_NO_INLINE by error<FirSourceElement, PsiElement>()
 
         val TYPE_PARAMETERS_NOT_ALLOWED by error<FirSourceElement, KtDeclaration>()
+
+        val TYPE_PARAMETER_OF_PROPERTY_NOT_USED_IN_RECEIVER by error<FirSourceElement, KtTypeParameter>()
     }
 
     val REFLECTION by object : DiagnosticGroup("Reflection") {
