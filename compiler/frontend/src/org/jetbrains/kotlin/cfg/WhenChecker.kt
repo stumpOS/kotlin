@@ -47,6 +47,9 @@ import java.util.*
 
 
 val List<WhenMissingCase>.hasUnknown: Boolean
+    get() = firstOrNull() == WhenMissingCase.Unknown
+
+val List<WhenMissingCase>.assumesElseBranchOnly: Boolean
     get() = any { it == WhenMissingCase.Unknown || it is WhenMissingCase.ConditionTypeIsExpect }
 
 private interface WhenExhaustivenessChecker {
