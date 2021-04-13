@@ -331,6 +331,8 @@ object DIAGNOSTICS_LIST : DiagnosticList() {
         val DEPRECATED_TYPE_PARAMETER_SYNTAX by error<FirSourceElement, KtTypeParameterList>()
 
         val MISPLACED_TYPE_PARAMETER_CONSTRAINTS by warning<FirSourceElement, KtTypeParameter>()
+        
+        val DYNAMIC_UPPER_BOUND by error<FirSourceElement, KtTypeReference>()
     }
 
     val REFLECTION by object : DiagnosticGroup("Reflection") {

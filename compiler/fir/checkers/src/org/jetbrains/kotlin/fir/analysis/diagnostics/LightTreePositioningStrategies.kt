@@ -720,6 +720,9 @@ private fun FlyweightCapableTreeStructure<LighterASTNode>.findParentOfType(
     return null
 }
 
+internal fun FlyweightCapableTreeStructure<LighterASTNode>.getAncestors(node: LighterASTNode): Sequence<LighterASTNode> =
+    generateSequence(getParent(node)) { getParent(it) }
+
 private fun FlyweightCapableTreeStructure<LighterASTNode>.firstChild(node: LighterASTNode): LighterASTNode? {
     val childrenRef = Ref<Array<LighterASTNode>>()
     getChildren(node, childrenRef)
