@@ -124,7 +124,9 @@ internal fun checkConstantArguments(
                         && expression.typeRef.coneType.classId == StandardClassIds.Int
                     ) {
                         val value = expression.arguments.first() as? FirConstExpression<*>
-                        if (value?.value == 0L) return ConstantArgumentKind.NOT_CONST
+                        if (value?.value == 0L) {
+                            return ConstantArgumentKind.NOT_CONST
+                        }
                     }
 
                     for (exp in (expression as FirCall).arguments.plus(expression.dispatchReceiver)) {
@@ -133,8 +135,9 @@ internal fun checkConstantArguments(
                         if (calleeReference.name == OperatorNameConventions.PLUS
                             && expClassId != receiverClassId
                             && (expClassId !in StandardClassIds.primitiveTypesAndString || receiverClassId !in StandardClassIds.primitiveTypesAndString)
-                        )
+                        ) {
                             return ConstantArgumentKind.NOT_CONST
+                        }
                         checkConstantArguments(exp, session)?.let { return it }
                     }
                 }
