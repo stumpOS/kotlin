@@ -780,6 +780,8 @@ object PositioningStrategies {
     val REFERENCE_BY_QUALIFIED: PositioningStrategy<PsiElement> = FindReferencePositioningStrategy(false)
     val REFERENCED_NAME_BY_QUALIFIED: PositioningStrategy<PsiElement> = FindReferencePositioningStrategy(true)
 
+    val REIFIED_MODIFIER: PositioningStrategy<KtModifierListOwner> = modifierSetPosition(KtTokens.REIFIED_KEYWORD)
+
     /**
      * @param locateReferencedName whether to remove any nested parentheses while locating the reference element. This is useful for
      * diagnostics on super and unresolved references. For example, with the following, only the part inside the parentheses should be

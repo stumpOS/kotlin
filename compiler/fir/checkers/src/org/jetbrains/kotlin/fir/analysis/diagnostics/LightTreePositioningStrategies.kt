@@ -526,6 +526,9 @@ object LightTreePositioningStrategies {
 
     val LONG_LITERAL_SUFFIX = object : LightTreePositioningStrategy() {
     }
+
+    val REIFIED_MODIFIER: LightTreePositioningStrategy =
+        ModifierSetBasedLightTreePositioningStrategy(TokenSet.create(KtTokens.REIFIED_KEYWORD))
 }
 
 fun FirSourceElement.hasValOrVar(): Boolean =

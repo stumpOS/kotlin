@@ -152,6 +152,7 @@ object FirTypeParameterBoundsChecker : FirTypeParameterChecker() {
         }
     }
 
+    //TODO should be moved to extended checkers (because this is basically a code-style warning)
     private fun checkBoundsPlacement(declaration: FirTypeParameter, context: CheckerContext, reporter: DiagnosticReporter) {
         if (declaration.bounds.size < 2) return
 
