@@ -55,6 +55,10 @@ abstract class AbstractFirDiagnosticTest : AbstractKotlinCompilerTest() {
 
         useMetaInfoProcessors(::PsiLightTreeMetaInfoProcessor)
 
+        defaultDirectives {
+            +COMPARE_WITH_LIGHT_TREE
+        }
+
         forTestsMatching("compiler/testData/diagnostics/*") {
             useAfterAnalysisCheckers(
                 ::FirIdenticalChecker,
@@ -66,7 +70,6 @@ abstract class AbstractFirDiagnosticTest : AbstractKotlinCompilerTest() {
         forTestsMatching("compiler/fir/analysis-tests/testData/*") {
             defaultDirectives {
                 +FIR_DUMP
-                +COMPARE_WITH_LIGHT_TREE
             }
         }
 
