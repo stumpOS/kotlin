@@ -25,24 +25,19 @@ class KtFirCompositeScope(
     override val token: ValidityToken
 ) : KtCompositeScope, ValidityTokenOwner {
     override fun getAllNames(): Set<Name> = withValidityAssertion {
-        // I had to write type arguments explicitly here to build the code correctly in FIR bootstrap
-        // Otherwise we have RETURN_TYPE_MISMATCH with actual type Set<Any?> (see fir:analysis-test KtFirCompositeScope.kt)
-        @Suppress("RemoveExplicitTypeArguments")
-        buildSet<Name> {
+        buildSet {
             subScopes.flatMapTo(this) { it.getAllNames() }
         }
     }
 
     override fun getCallableNames(): Set<Name> = withValidityAssertion {
-        @Suppress("RemoveExplicitTypeArguments")
-        buildSet<Name> {
+        buildSet {
             subScopes.flatMapTo(this) { it.getCallableNames() }
         }
     }
 
     override fun getClassifierNames(): Set<Name> = withValidityAssertion {
-        @Suppress("RemoveExplicitTypeArguments")
-        buildSet<Name> {
+        buildSet {
             subScopes.flatMapTo(this) { it.getClassifierNames() }
         }
     }
