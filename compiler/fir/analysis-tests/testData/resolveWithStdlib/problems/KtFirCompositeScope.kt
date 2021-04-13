@@ -11,9 +11,9 @@ inline fun <R> withValidityAssertion(action: () -> R): R {
 }
 
 class KtFirCompositeScope(val subScopes: List<KtScope>) {
-    fun getAllNames(): Set<String> = <!RETURN_TYPE_MISMATCH!>withValidityAssertion {
+    fun getAllNames(): Set<String> = withValidityAssertion {
         buildSet {
             subScopes.flatMapTo(this) { it.getAllNames() }
         }
-    }<!>
+    }
 }
