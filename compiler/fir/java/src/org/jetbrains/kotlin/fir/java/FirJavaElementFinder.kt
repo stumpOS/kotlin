@@ -22,9 +22,11 @@ import org.jetbrains.kotlin.descriptors.ClassKind
 import org.jetbrains.kotlin.descriptors.Modality
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.descriptors.Visibilities
+import org.jetbrains.kotlin.fir.FirSessionComponent
 import org.jetbrains.kotlin.fir.declarations.*
 import org.jetbrains.kotlin.fir.resolve.firProvider
 import org.jetbrains.kotlin.fir.resolve.fullyExpandedType
+import org.jetbrains.kotlin.fir.resolve.providers.FirProvider
 import org.jetbrains.kotlin.fir.resolve.toSymbol
 import org.jetbrains.kotlin.fir.resolve.transformers.resolveSupertypesInTheAir
 import org.jetbrains.kotlin.name.StandardClassIds
@@ -37,11 +39,18 @@ import org.jetbrains.kotlin.resolve.jvm.JvmPrimitiveType
 import org.jetbrains.kotlin.resolve.jvm.KotlinFinderMarker
 
 class FirJavaElementFinder(
-    private val session: FirSession,
+    session: FirSession,
     project: Project
-) : PsiElementFinder(), KotlinFinderMarker {
+) : PsiElementFinder(), KotlinFinderMarker, FirSessionComponent {
+    private var _session: FirSession? = session
+    private inline val session: FirSession
+        get() = _session!!
+
     private val psiManager = PsiManager.getInstance(project)
-    private val firProvider = session.firProvider
+
+    private var _firProvider: FirProvider? = session.firProvider
+    private inline val firProvider: FirProvider
+        get() = _firProvider!!
 
     override fun findPackage(qualifiedName: String): PsiPackage? {
         if (firProvider.symbolProvider.getPackage(FqName(qualifiedName)) == null) return null
@@ -105,7 +114,13 @@ class FirJavaElementFinder(
         return stub
     }
 
+    fun dispose() {
+        _session = null
+        _firProvider = null
+    }
 }
+
+val FirSession.javaElementFinder: FirJavaElementFinder by FirSession.sessionComponentAccessor()
 
 private fun FirRegularClass.packFlags(): Int {
     var flags = when (visibility) {

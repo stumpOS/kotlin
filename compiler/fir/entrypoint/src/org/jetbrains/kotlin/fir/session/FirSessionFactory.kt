@@ -112,8 +112,7 @@ object FirSessionFactory {
                 registerJvmCheckers()
                 init()
             }.configure()
-
-            PsiElementFinder.EP.getPoint(project).registerExtension(FirJavaElementFinder(this, project), project)
+            registerJavaElementFinder(project)
         }
     }
 
@@ -151,6 +150,12 @@ object FirSessionFactory {
             register(FirSymbolProvider::class, symbolProvider)
             register(FirProvider::class, FirLibrarySessionProvider(symbolProvider))
         }
+    }
+
+    private fun FirSession.registerJavaElementFinder(project: Project) {
+        val javaElementFinder = FirJavaElementFinder(this, project)
+        register(FirJavaElementFinder::class, javaElementFinder)
+        PsiElementFinder.EP.getPoint(project).registerExtension(javaElementFinder, project)
     }
 
     private fun FirSession.makeDeserializedJvmSymbolsProvider(

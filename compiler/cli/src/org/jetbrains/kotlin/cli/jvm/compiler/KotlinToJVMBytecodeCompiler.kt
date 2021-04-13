@@ -17,6 +17,7 @@
 package org.jetbrains.kotlin.cli.jvm.compiler
 
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.vfs.*
 import com.intellij.psi.PsiElementFinder
 import com.intellij.psi.PsiJavaModule
@@ -58,6 +59,7 @@ import org.jetbrains.kotlin.fir.backend.jvm.FirJvmBackendClassResolver
 import org.jetbrains.kotlin.fir.backend.jvm.FirJvmBackendExtension
 import org.jetbrains.kotlin.fir.checkers.registerExtendedCommonCheckers
 import org.jetbrains.kotlin.fir.createSessionWithDependencies
+import org.jetbrains.kotlin.fir.java.javaElementFinder
 import org.jetbrains.kotlin.ir.backend.jvm.jvmResolveLibraries
 import org.jetbrains.kotlin.javac.JavacWrapper
 import org.jetbrains.kotlin.load.kotlin.ModuleVisibilityManager
@@ -427,6 +429,10 @@ object KotlinToJVMBytecodeCompiler {
             performanceManager?.notifyGenerationFinished()
             ProgressIndicatorAndCompilationCanceledStatus.checkCanceled()
             outputs[module] = generationState
+
+            session.javaElementFinder.dispose()
+            PsiElementFinder.EP.getPoint(project).unregisterExtension(JavaElementFinder::class.java)
+            Disposer.dispose(environment.project)
         }
 
         val mainClassFqName: FqName? =
