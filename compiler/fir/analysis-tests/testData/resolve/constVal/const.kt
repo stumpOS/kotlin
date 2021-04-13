@@ -1,4 +1,11 @@
+// FILE: Constants.java
 
+public class Constants {
+    public static final String FIRST = "1st";
+    public static final String SECOND = "2nd";
+}
+
+// FILE: const.kt
 const val a = "something"
 <!MUST_BE_INITIALIZED!><!CONST_VAL_WITHOUT_INITIALIZER!>const<!> val b<!>
 <!TYPE_CANT_BE_USED_FOR_CONST_VAL!>const<!> val c = null
@@ -25,3 +32,5 @@ private const val PATCH_BITS = 7
 private const val MAJOR_MASK = (1 shl MAJOR_BITS) - 1 // False positive error
 private const val MINOR_MASK = (1 shl MINOR_BITS) - 1 // False positive error
 private const val PATCH_MASK = (1 shl PATCH_BITS) - 1    // False positive error
+
+private const val stringFromJava = Constants.FIRST + "+" + Constants.SECOND

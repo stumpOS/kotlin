@@ -117,7 +117,7 @@ internal fun checkConstantArguments(
                 OperatorNameConventions.OR, OperatorNameConventions.AND -> {
                     val coneType =
                         expression.dispatchReceiver.typeRef.coneTypeSafe<ConeKotlinType>() ?: return ConstantArgumentKind.NOT_CONST
-                    val receiverClassId = coneType.classId
+                    val receiverClassId = coneType.lowerBoundIfFlexible().classId
 
 
                     if ((calleeReference.name == OperatorNameConventions.DIV || calleeReference.name == OperatorNameConventions.REM)
@@ -130,7 +130,7 @@ internal fun checkConstantArguments(
                     }
 
                     for (exp in (expression as FirCall).arguments.plus(expression.dispatchReceiver)) {
-                        val expClassId = exp.typeRef.coneType.classId
+                        val expClassId = exp.typeRef.coneType.lowerBoundIfFlexible().classId
 
                         if (calleeReference.name == OperatorNameConventions.PLUS
                             && expClassId != receiverClassId
