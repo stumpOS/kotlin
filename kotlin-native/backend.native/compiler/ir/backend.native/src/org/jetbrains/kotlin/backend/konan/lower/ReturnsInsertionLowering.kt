@@ -19,7 +19,6 @@ import org.jetbrains.kotlin.ir.expressions.impl.IrBlockBodyImpl
 import org.jetbrains.kotlin.ir.visitors.IrElementVisitorVoid
 import org.jetbrains.kotlin.ir.visitors.acceptChildrenVoid
 import org.jetbrains.kotlin.ir.visitors.acceptVoid
-import org.jetbrains.kotlin.utils.addToStdlib.safeAs
 
 internal class ReturnsInsertionLowering(val context: Context) : FileLoweringPass {
     private val symbols = context.ir.symbols
