@@ -705,7 +705,7 @@ sealed class KtFirDiagnostic<PSI: PsiElement> : KtDiagnosticWithPsi<PSI> {
         override val diagnosticClass get() = BoundOnTypeAliasParameterNotAllowed::class
     }
 
-    abstract class ReifiedTypeParameterNoInline : KtFirDiagnostic<PsiElement>() {
+    abstract class ReifiedTypeParameterNoInline : KtFirDiagnostic<KtTypeParameter>() {
         override val diagnosticClass get() = ReifiedTypeParameterNoInline::class
     }
 
